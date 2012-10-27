@@ -22,5 +22,6 @@ def includeme(config):
     config.include('pyramid_rest')
 
     config.add_static_view('/static/%s' % version, 'velo:static')
+    config.add_static_view('/static/{version:\d\.\d\.\d}', 'velo:static')
 
     config.scan('velo.views')
