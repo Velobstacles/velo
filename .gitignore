@@ -26,3 +26,6 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 hadrien.ini
+nosetests.xml
+velo/.noseids
+velo/coverage.xml
