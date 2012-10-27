@@ -1,1 +1,1 @@
-web: pserve development.ini
+web: gunicorn_paster development.ini
