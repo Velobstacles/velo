@@ -5,7 +5,10 @@ import webtest
 
 import velo
 
-settings = {}
+# XXX should we change to a test.ini file?
+settings = {
+    'mako.directories': 'velo:templates',
+    }
 
 
 class TestController(unittest.TestCase):
