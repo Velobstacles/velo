@@ -21,7 +21,7 @@ setup_requires = [
 
 
 dependency_links=[
-    'https://crate.io/',
+    'http://simple.crate.io/',
 ]
 
 
