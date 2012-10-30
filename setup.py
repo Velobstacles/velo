@@ -16,6 +16,7 @@ setup_requires = [
     'mock',
     'webtest',
     'yanc',
+    'Sphinx',
 ]
 
 
