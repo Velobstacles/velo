@@ -14,7 +14,8 @@ setup_requires = [
     'nosexcover',
     'coverage',
     'mock',
-    'webtest'
+    'webtest',
+    'yanc',
 ]
 
 

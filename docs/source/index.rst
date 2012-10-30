@@ -14,6 +14,7 @@ Developers
 
 * `velo` uses `pyramid web framework <http://docs.pylonsproject.org/en/latest/docs/pyramid.html>`_.
 * REST resources are exposed using `pyramid rest extension <http://pypi.python.org/pypi/pyramid_rest>`_
+* `Continuous integration <https://travis-ci.org/#!/Velobstacles/velo>`_
 
 
 Indices and tables
