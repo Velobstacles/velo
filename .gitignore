@@ -29,3 +29,4 @@ hadrien.ini
 nosetests.xml
 velo/.noseids
 velo/coverage.xml
+.DS_Store

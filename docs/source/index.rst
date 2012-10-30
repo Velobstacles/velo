@@ -1,7 +1,7 @@
 VELO
 ====
 
-`velo` aims to provide the REST api to velobstacles application.
+`velo` aims to provide the REST api to velobstacles application.
 
 Documentation will provides all endpoints documentation.
 
