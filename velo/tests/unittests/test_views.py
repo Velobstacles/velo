@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+import mock
+
+
 class TestViews(unittest.TestCase):
 
     def test_index(self):
@@ -9,8 +12,12 @@ class TestViews(unittest.TestCase):
 
         self.assertEqual({}, result)
 
-    def test_hello_index(self):
-        from velo.views import hello_index
-        result = hello_index(None, None)
+    def test_base(self):
+        from velo.views import Base
+        req = mock.Mock()
+        ctx = mock.Mock
 
-        self.assertEqual({'Hello': 'World!'}, result)
+        b = Base(ctx, req)
+
+        self.assertEqual(req, b.request)
+        self.assertEqual(ctx, b.context)

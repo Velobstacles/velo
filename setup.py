@@ -3,7 +3,7 @@
 import setuptools
 
 if not getattr(setuptools, "_distribute", False):
-    raise SystemExit("Setuptools is not supported. Please install Distribute (create your virtualenv with --distribute)")
+    raise SystemExit("""Setuptools is not supported. Please use Distribute""")
 
 setup_requires = [
     # d2to1 bootstrap
@@ -20,7 +20,7 @@ setup_requires = [
 ]
 
 
-dependency_links=[
+dependency_links = [
     'http://simple.crate.io/',
 ]
 
@@ -36,7 +36,7 @@ setuptools.setup(
         "static/*/*.*",
         "static/*/*/*.*",
     ]},
-    entry_points = """\
+    entry_points="""\
         [paste.app_factory]
         main = velo:main
     """

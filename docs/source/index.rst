@@ -12,9 +12,10 @@ on project.
 Developers
 ----------
 
-* `velo` uses `pyramid web framework <http://docs.pylonsproject.org/en/latest/docs/pyramid.html>`_.
-* REST resources are exposed using `pyramid rest extension <http://pypi.python.org/pypi/pyramid_rest>`_
-* `Continuous integration <https://travis-ci.org/#!/Velobstacles/velo>`_
+* `velo` uses `pyramid web framework <http://docs.pylonsproject.org/en/latest/docs/pyramid.html>`_;
+* REST resources are exposed using `pyramid rest extension <http://pypi.python.org/pypi/pyramid_rest>`_;
+* .. image:: https://secure.travis-ci.org/Velobstacles/velo.png
+     :target: https://travis-ci.org/#!/Velobstacles/velo
 
 
 Indices and tables

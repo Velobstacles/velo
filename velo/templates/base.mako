@@ -43,7 +43,6 @@
       <div class="hero-unit">
         <h1>Hello, world!</h1>
         <p>Some dumb placeholder for the velo API. It should contains API documentation</p>
-        <p><a href="${request.route_url('hello_world')}">An example of a REST stupid api link.</a></p>
       </div>
 
       <!-- Example row of columns -->

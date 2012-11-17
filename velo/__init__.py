@@ -20,8 +20,11 @@ def includeme(config):
     version = pkg_resources.get_distribution('velo').version
 
     config.include('pyramid_rest')
+    config.include('velo.model')
 
     config.add_static_view('/static/%s' % version, 'velo:static')
     config.add_static_view('/static/{version:\d+\.\d+\.\d+}', 'velo:static')
+
+    config.add_resource('medium', plural_name='media')
 
     config.scan('velo.views')

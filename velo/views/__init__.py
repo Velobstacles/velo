@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from pyramid.view import view_config
 
-from pyramid_rest.resource import Resource
 
+class Base(object):
+    """Base class for all views."""
 
-hello = Resource('hello_world')
-
-@hello.index()
-def hello_index(context, request):
-    return {'Hello': 'World!'}
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
 
 @view_config(renderer='index.mako')
