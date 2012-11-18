@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from bson.objectid import InvalidId
+from mongokit.document import ObjectId
+
 from pyramid.httpexceptions import HTTPCreated, HTTPNotFound, HTTPOk
 
 from pyramid_rest.resource import method_config
@@ -10,7 +13,10 @@ from velo.views import Base
 class MediaView(Base):
 
     def _get_one_or_404(self, id):
-        medium = self.request.db.Medium.find_one({'_id': id})
+        try:
+            medium = self.request.db.Medium.find_one({'_id': ObjectId(id)})
+        except InvalidId:
+            raise HTTPNotFound()
         if not medium:
             raise HTTPNotFound()
         return medium
