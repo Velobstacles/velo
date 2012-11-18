@@ -43,6 +43,7 @@
       <div class="hero-unit">
         <h1>Hello, world!</h1>
         <p>Some dumb placeholder for the velo API. It should contains API documentation</p>
+        <p>Media index is <a href="${request.rest_resource_url('medium')}">here</a></p>
       </div>
 
       <!-- Example row of columns -->
