@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from bson.binary import Binary
+from mongokit import INDEX_GEO2D
 
 from velo.model.meta import Document
 
@@ -17,7 +17,10 @@ class Medium(Document):
             'longitude': float,
             'latitude': float,
             },
-        'content': Binary,
+        }
+
+    gridfs = {
+        'files': ['source']
         }
 
     required_fields = [
@@ -27,5 +30,9 @@ class Medium(Document):
         ]
 
     default_values = {
-        'creation_datetime': datetime.utcnow
-    }
+        'creation_datetime': datetime.utcnow,
+        }
+
+    indexes = [
+        {'fields': ('location', INDEX_GEO2D), }
+        ]

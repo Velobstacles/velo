@@ -12,8 +12,9 @@ class TestMedia(TestBase):
         super(TestMedia, self).setUp()
         medium = self.db.Medium()
         medium.location = {'latitude': 45.522706, 'longitude': -73.583885}
-        medium.content = Binary(data='asdf')
         medium.save()
+        medium.fs.source = Binary(data='asdf')
+
         self.medium_id = medium._id
 
     def tearDown(self):
