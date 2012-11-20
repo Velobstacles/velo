@@ -31,3 +31,5 @@ velo/.noseids
 velo/coverage.xml
 .DS_Store
 .env
+velo/tests/.noseids
+velo/tests/coverage.xml
