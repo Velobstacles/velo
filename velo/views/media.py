@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from bson.objectid import InvalidId
-from mongokit.document import ObjectId
+from __future__ import absolute_import
+from bson.objectid import InvalidId, ObjectId
 
 from pyramid.httpexceptions import HTTPCreated, HTTPNotFound, HTTPOk
 
@@ -22,19 +22,30 @@ class MediaView(Base):
         return medium
 
     def _save_medium(self, medium):
+        content = self.request.POST.getone('content')
         medium.location = {
             'longitude': float(self.request.POST.getone('longitude')),
             'latitude': float(self.request.POST.getone('latitude')),
             }
+        medium.mime_type = content.type
         medium.save()
-        medium.fs.source = self.request.POST.getone('source').file.read()
+        medium.fs.put(
+            content.file,
+            filename='content'
+            )
 
     def _format_medium(self, medium):
         return {
             'id': str(medium._id),
             'location': medium.location,
+            'creation_datetime': medium.creation_datetime.isoformat(),
+            'mime_type': medium.mime_type,
             'links': {
                 'self': self.request.rest_resource_url('medium', medium._id,),
+                'content': self.request.rest_resource_url(
+                    'medium.content',
+                    medium._id,
+                    )
                 },
             }
 

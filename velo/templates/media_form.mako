@@ -18,9 +18,9 @@
       </div>
     </div>
     <div class="control-group">
-      <label class="control-label" for="source">File</label>
+      <label class="control-label" for="content">File</label>
       <div class="controls">
-        <input type="file" name="source"></input>
+        <input type="file" name="content"></input>
       </div>
     </div>
     <div class="control-group">

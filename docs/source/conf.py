@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 #
 # VELO REST documentation build configuration file, created by
 # sphinx-quickstart on Sat Sep 22 14:08:50 2012.

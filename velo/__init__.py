@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import logging
 
 import pkg_resources
@@ -26,5 +27,6 @@ def includeme(config):
     config.add_static_view('/static/{version:\d+\.\d+\.\d+}', 'velo:static')
 
     config.add_resource('medium', plural_name='media')
+    config.add_singular_resource('medium.content')
 
     config.scan('velo.views')

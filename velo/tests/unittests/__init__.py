@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from webob.multidict import MultiDict
 from functools import partial
 from unittest import TestCase
 
@@ -30,4 +32,5 @@ class TestBase(TestCase):
         request.db = self.db
         request.rest_resource_url = partial(rest_resource_url, request)
         request.rest_resource_path = partial(rest_resource_path, request)
+        request.POST = MultiDict()
         return request

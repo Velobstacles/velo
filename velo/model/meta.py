@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+import os
+
 import mongokit
 
 from zope.interface import implementer
 from zope.interface import Interface
 
-DATABASE_NAME = 'velobstacles'
+DATABASE_NAME = os.environ['VELO_DB_NAME']
 
 
 class Document(mongokit.Document):
