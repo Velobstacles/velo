@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from webob.multidict import MultiDict
 from functools import partial
 from unittest import TestCase
 
-from pyramid.decorator import reify
 from pyramid import testing
 
 from pyramid_rest import rest_resource_path, rest_resource_url
+from pyramid_rest.mongo import mongo_db, mongo_connection
+
+from webob.multidict import MultiDict
 
 
 class TestBase(TestCase):
@@ -16,20 +17,19 @@ class TestBase(TestCase):
         self.config.include('pyramid_rest')
         self.config.include('velo')
 
+        self.request = testing.DummyRequest()
+        self.request.context = testing.DummyResource()
+        self.request.rest_resource_url = partial(rest_resource_url,
+                                                 self.request)
+        self.request.rest_resource_path = partial(rest_resource_path,
+                                                  self.request)
+        self.request.POST = MultiDict()
+        self.request.mongo_connection = mongo_connection(self.request)
+        self.request.mongo_db = mongo_db(self.request)
+
     def tearDown(self):
         testing.tearDown()
 
-    @reify
+    @property
     def db(self):
-        from velo.model.meta import IMongoConnection, DATABASE_NAME
-        conn = self.config.registry.getUtility(IMongoConnection)
-        return getattr(conn, DATABASE_NAME)
-
-    def get_request(self):
-        request = testing.DummyRequest()
-        request.context = testing.DummyResource()
-        request.db = self.db
-        request.rest_resource_url = partial(rest_resource_url, request)
-        request.rest_resource_path = partial(rest_resource_path, request)
-        request.POST = MultiDict()
-        return request
+        return self.request.mongo_db

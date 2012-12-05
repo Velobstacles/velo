@@ -5,7 +5,6 @@ from pyramid.httpexceptions import HTTPCreated, HTTPNotFound, HTTPOk
 
 from pyramid_rest.resource import method_config
 
-
 from velo.views import Base
 
 
@@ -13,7 +12,7 @@ class MediaView(Base):
 
     def _get_one_or_404(self, id):
         try:
-            medium = self.request.db.Medium.find_one({'_id': ObjectId(id)})
+            medium = self.request.mongo_db.Medium.find_one({'_id': ObjectId(id)})
         except InvalidId:
             raise HTTPNotFound()
         if not medium:
@@ -50,11 +49,11 @@ class MediaView(Base):
 
     def index(self):
         # XXX: pagination
-        media = self.request.db.Medium.find()
+        media = self.request.mongo_db.Medium.find()
         return {'data': [self._format_medium(medium) for medium in media]}
 
     def create(self):
-        medium = self.request.db.Medium()
+        medium = self.request.mongo_db.Medium()
         self._save_medium(medium)
         return HTTPCreated(
             location=self.request.rest_resource_url('medium', medium._id)
@@ -80,4 +79,4 @@ class MediaView(Base):
 
     @method_config(renderer='media_form.mako')
     def new(self):
-        return {'medium': self.request.db.Medium()}
+        return {'medium': self.request.mongo_db.Medium()}

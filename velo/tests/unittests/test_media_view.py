@@ -24,7 +24,7 @@ class TestMedia(TestBase):
 
     def get_view(self):
         from velo.views.media import MediaView
-        request = self.get_request()
+        request = self.request
         return MediaView(request.context, request)
 
     def tearDown(self):

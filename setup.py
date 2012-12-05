@@ -20,15 +20,10 @@ tests_require = [
     'Sphinx',
     ]
 
-dependency_links = [
-    'http://simple.crate.io/',
-    ]
-
 setuptools.setup(
     setup_requires=setup_requires,
     tests_require=tests_require,
     d2to1=True,
-    dependency_links=dependency_links,
     package_data={"velo": [
         "templates/*.*",
         "templates/*/*.*",

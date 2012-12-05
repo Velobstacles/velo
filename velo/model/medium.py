@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from mongokit import INDEX_GEO2D
-
-from velo.model.meta import Document
+from mongokit import Document, INDEX_GEO2D
 
 
 class Medium(Document):
@@ -33,10 +31,7 @@ class Medium(Document):
 
     default_values = {
         'creation_datetime': datetime.utcnow,
-        'location.longitude': 12,
         }
 
     # http://www.mongodb.org/display/DOCS/Geospatial+Indexing
-    indexes = [
-        {'fields': ('location', INDEX_GEO2D), }
-        ]
+    indexes = [{'fields': ('location', INDEX_GEO2D)}]
