@@ -33,3 +33,4 @@ velo/coverage.xml
 .env
 velo/tests/.noseids
 velo/tests/coverage.xml
+.env~

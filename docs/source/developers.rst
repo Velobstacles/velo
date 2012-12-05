@@ -40,3 +40,22 @@ Unit Testing guidelines
 
 velo project follows `pyramid unit testing guidelines
 <http://docs.pylonsproject.org/en/latest/community/testing.html>`_
+
+
+Get velo running
+----------------
+
+* install and run ``mongodb`` locally: http://www.mongodb.org/downloads
+* To download all necesary dependencies, in a virtualenv, run::
+
+    (env)$ pip install d2to1
+    (env)$ python setup.py develop
+
+* To run velo::
+
+    (env)$ pserve development.ini --reload
+
+* To run tests::
+
+    (env)$ nosetests
+

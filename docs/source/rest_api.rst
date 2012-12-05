@@ -34,8 +34,7 @@ Principles
 Medium: /media
 --------------
 
-Medium is a photo/video associated to gps location.
-Example::
+Medium is a photo/video associated to gps location. Example::
 
     {
         "links": {

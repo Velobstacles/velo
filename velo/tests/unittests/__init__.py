@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from webob.multidict import MultiDict
 from functools import partial
 from unittest import TestCase

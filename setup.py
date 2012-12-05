@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import setuptools
 
 if not getattr(setuptools, "_distribute", False):
@@ -8,7 +7,9 @@ if not getattr(setuptools, "_distribute", False):
 setup_requires = [
     # d2to1 bootstrap
     'd2to1',
+    ]
 
+tests_require = [
     # Testing dependencies (the application doesn't need them to *run*)
     'nose',
     'nosexcover',
@@ -17,16 +18,15 @@ setup_requires = [
     'webtest',
     'yanc',
     'Sphinx',
-]
-
+    ]
 
 dependency_links = [
     'http://simple.crate.io/',
-]
-
+    ]
 
 setuptools.setup(
     setup_requires=setup_requires,
+    tests_require=tests_require,
     d2to1=True,
     dependency_links=dependency_links,
     package_data={"velo": [
@@ -40,4 +40,4 @@ setuptools.setup(
         [paste.app_factory]
         main = velo:main
     """
-)
+    )

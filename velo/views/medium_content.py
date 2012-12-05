@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from bson.objectid import ObjectId
 
 from pyramid.response import Response, FileIter

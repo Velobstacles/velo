@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from datetime import datetime
 
 from mongokit import INDEX_GEO2D
@@ -34,8 +33,10 @@ class Medium(Document):
 
     default_values = {
         'creation_datetime': datetime.utcnow,
+        'location.longitude': 12,
         }
 
+    # http://www.mongodb.org/display/DOCS/Geospatial+Indexing
     indexes = [
         {'fields': ('location', INDEX_GEO2D), }
         ]

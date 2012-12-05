@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 import os
 
 import mongokit
@@ -12,7 +11,7 @@ DATABASE_NAME = os.environ['VELO_DB_NAME']
 
 class Document(mongokit.Document):
     """Base class for all db documents."""
-    __database__ = DATABASE_NAME
+    #__database__ = DATABASE_NAME
 
 
 class IMongoConnection(Interface):

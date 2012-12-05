@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from bson.objectid import InvalidId, ObjectId
 
 from pyramid.httpexceptions import HTTPCreated, HTTPNotFound, HTTPOk
@@ -31,7 +30,7 @@ class MediaView(Base):
         medium.save()
         medium.fs.put(
             content.file,
-            filename='content'
+            filename='content',
             )
 
     def _format_medium(self, medium):
