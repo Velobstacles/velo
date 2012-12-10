@@ -34,8 +34,11 @@ Mongo DB
 ````````
 
 Two options:
-# Install and run ``mongodb`` locally: http://www.mongodb.org/downloads
-# Open an account on https://www.mongohq.com/ and create a database
+
+#. Install and run ``mongodb`` locally: http://www.mongodb.org/downloads
+
+#. Open an account on https://www.mongohq.com/ and create a database
+
 
 Velo
 ````
