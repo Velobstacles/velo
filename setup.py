@@ -21,9 +21,10 @@ tests_require = [
     ]
 
 setuptools.setup(
-    setup_requires=setup_requires,
+    setup_requires=setup_requires + tests_require,
     tests_require=tests_require,
     d2to1=True,
+    test_suite='nose.collector',
     package_data={"velo": [
         "templates/*.*",
         "templates/*/*.*",
