@@ -34,6 +34,6 @@ setuptools.setup(
     ]},
     entry_points="""\
         [paste.app_factory]
-        main = velo:main
+            main = velo:main
     """
     )

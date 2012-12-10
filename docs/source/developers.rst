@@ -18,21 +18,6 @@ Python coding guidelines are standard `PEP-8
   (SublimeText users: ``"trim_trailing_white_space_on_save": true``)
 - Source code encoding is US-ASCII. When US-ASCII is insufficient, use UTF-8,
   not latin-1.
-- Each Python source file must start with the following line::
-
-    from __future__ import absolute_import
-
-The absolute_import directive serves two purposes:
-
-- It avoids initializing modules twice (once when they're imported absolutely
-  and one when they're imported relatively).
-- It avoids an issue where if a module in the current package has the same
-  name as one in the stdlib or in site-packages (e.g. ``foo.bar.string``),
-  importing the stdlib one became impossible. With absolute_import switched on,
-  ``import string`` always refers to the string module in the stdlib, and your
-  module must be imported with ``from foo.bar import string``.
-
-For more information, read `this link <http://docs.python.org/whatsnew/2.5.html#pep-328-absolute-and-relative-imports>`_.
 
 
 Unit Testing guidelines
@@ -45,17 +30,30 @@ velo project follows `pyramid unit testing guidelines
 Get velo running
 ----------------
 
-* install and run ``mongodb`` locally: http://www.mongodb.org/downloads
-* To download all necesary dependencies, in a virtualenv, run::
+Mongo DB
+````````
 
-    (env)$ pip install d2to1
-    (env)$ python setup.py develop
+Two options:
+# Install and run ``mongodb`` locally: http://www.mongodb.org/downloads
+# Open an account on https://www.mongohq.com/ and create a database
 
-* To run velo::
+Velo
+````
 
-    (env)$ pserve development.ini --reload
+#. To download all necesary dependencies, in a virtualenv, run::
 
-* To run tests::
+   (env)$ pip install dev-requirements.txt
+   (env)$ python setup.py develop
 
-    (env)$ nosetests
 
+#. Export mongo environment variable pointing to your mongo database::
+
+     (env)$ export MONGO_URI=mongodb://<user>:<password>$@alex.mongohq.com:10005/<database_name>
+
+#. To run tests::
+
+     (env)$ nosetests
+
+#. To Run local server::
+
+     (env)$ pserve development.ini --reload

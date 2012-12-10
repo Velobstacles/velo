@@ -3,5 +3,5 @@ import os
 
 
 def setUpPackage():
-    os.environ['MONGO_URI'] = 'mongodb://localhost/velobstacles'
-    os.environ['VELO_DB_NAME'] = 'velobstacles'
+    message = 'MONGO_URI not found in environment variables'
+    assert 'MONGO_URI' in os.environ, message
