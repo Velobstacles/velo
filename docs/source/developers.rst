@@ -48,7 +48,7 @@ Velo
 
 #. Export mongo environment variable pointing to your mongo database::
 
-     (env)$ export MONGO_URI=mongodb://<user>:<password>$@alex.mongohq.com:10005/<database_name>
+     (env)$ export MONGO_URI=mongodb://<user>:<password>$@<mongo_server_hostname>/<database_name>
 
 #. To run tests::
 
