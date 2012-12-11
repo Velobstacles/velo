@@ -45,7 +45,7 @@ Velo
 
 #. To download all necesary dependencies, in a virtualenv, run::
 
-   (env)$ pip install dev-requirements.txt
+   (env)$ pip install -r dev-requirements.txt
    (env)$ python setup.py develop
 
 
