@@ -58,6 +58,6 @@ Velo
 
      (env)$ nosetests
 
-#. To Run local server::
+#. To run local server::
 
      (env)$ pserve development.ini --reload
