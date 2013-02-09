@@ -49,8 +49,9 @@ Velo
    (env)$ python setup.py develop
 
 
-#. Export mongo environment variable pointing to your mongo database::
+#. Export mongo environment variables with mongo database info::
 
+     (env)$ export MONGO_DB_NAME=<database_name>
      (env)$ export MONGO_URI=mongodb://<user>:<password>$@<mongo_server_hostname>/<database_name>
 
 #. To run tests::
