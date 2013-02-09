@@ -12,7 +12,8 @@ class MediaView(Base):
 
     def _get_one_or_404(self, id):
         try:
-            medium = self.request.mongo_db.Medium.find_one({'_id': ObjectId(id)})
+            param = {'_id': ObjectId(id)}
+            medium = self.request.mongo_db.Medium.find_one(param)
         except InvalidId:
             raise HTTPNotFound()
         if not medium:
@@ -25,7 +26,7 @@ class MediaView(Base):
             'longitude': float(self.request.POST.getone('longitude')),
             'latitude': float(self.request.POST.getone('latitude')),
             }
-        medium.mime_type = content.type
+        medium.mime_type = unicode(content.type)
         medium.save()
         medium.fs.put(
             content.file,

@@ -1,11 +1,14 @@
+# http://about.travis-ci.org/docs/user/build-configuration/
 language: python
-python:
-  - "2.7"
-  - "2.6"
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: "python setup.py develop"
-before_script: "export MONGO_URI='mongodb://localhost/velobstacles'"
-# command to run tests, e.g. python setup.py test
-script:  "python setup.py nosetests"
-services:
-  - mongodb
+
+python: 2.7
+
+install: python setup.py develop
+
+before_script:
+  - export MONGO_DB_NAME='velobstacles'
+  - export MONGO_URI='mongodb://localhost/velobstacles'
+
+script: python setup.py nosetests
+
+services: mongodb

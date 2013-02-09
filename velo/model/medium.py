@@ -15,7 +15,7 @@ class Medium(Document):
             'longitude': float,
             'latitude': float,
             },
-        'mime_type': basestring,
+        'mime_type': unicode,
         }
 
     gridfs = {

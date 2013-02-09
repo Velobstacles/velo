@@ -15,7 +15,7 @@ class TestMedia(TestBase):
         super(TestMedia, self).setUp()
         medium = self.db.Medium()
         medium.location = {'latitude': 45.522706, 'longitude': -73.583885}
-        medium.mime_type = 'image/png'
+        medium.mime_type = u'image/png'
         medium.save()
         fp = pkg_resources.resource_stream('velo', 'static/img/trollface.png')
         medium.fs.put(fp, filename='content')
@@ -73,13 +73,13 @@ class TestMedia(TestBase):
         view = self.get_view()
         content = FieldStorage()
         content.file = pkg_resources.resource_stream(
-            'velo',
-            'static/img/trollface.png'
+            u'velo',
+            u'static/img/trollface.png'
             )
         view.request.POST.update({
-            'longitude': 12.3,
-            'latitude': -45.4,
-            'content': content,
+            u'longitude': 12.3,
+            u'latitude': -45.4,
+            u'content': content,
             })
         view.create()
 

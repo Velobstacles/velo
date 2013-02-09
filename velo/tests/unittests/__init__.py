@@ -5,7 +5,7 @@ from unittest import TestCase
 from pyramid import testing
 
 from pyramid_rest import rest_resource_path, rest_resource_url
-from pyramid_rest.mongo import mongo_db, mongo_connection
+from pyramid_mongokit import mongo_db, mongo_connection
 
 from webob.multidict import MultiDict
 
