@@ -16,6 +16,7 @@ Content:
    :maxdepth: 4
 
    developers
+   resources
    rest_api
 
 Indices and tables

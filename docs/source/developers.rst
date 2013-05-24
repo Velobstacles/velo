@@ -2,7 +2,6 @@ Developers
 ==========
 
 * `velo` uses `pyramid web framework <http://docs.pylonsproject.org/en/latest/docs/pyramid.html>`_;
-* REST resources are exposed using `pyramid rest extension <http://pypi.python.org/pypi/pyramid_rest>`_;
 
 
 Coding guidelines
@@ -37,7 +36,7 @@ Two options:
 
 #. Install and run ``mongodb`` locally: http://www.mongodb.org/downloads
 
-#. Open an account on https://www.mongohq.com/ and create a database
+#. Open an account on https://www.mongohq.com/ and create a (free) database
 
 
 Velo
