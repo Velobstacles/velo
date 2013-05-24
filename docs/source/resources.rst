@@ -87,7 +87,39 @@ Reports
                               "type": "Point",
                               "coordinates": [73.59432, 45.5233]
                            },
-                        "tags": ["accident", "water"]
+                        "tags": ["accident", "water"],
+                        "report_photos":
+                           {
+                              "photos":
+                                 [
+                                    {
+                                       "photo":
+                                          {
+                                             "_id": "5118fe5ab821d90005c1a24d",
+                                             "author": "devon",
+                                             "location":
+                                                {
+                                                   "type": "Point",
+                                                   "coordinates": [-73.583885, 45.522706]
+                                                }
+                                          },
+                                       "links":
+                                          {
+                                             "self": "http://api.velobstacles.com/photo/5118fe5ab821d90005c1a24d",
+                                             "report": "http://api.velobstacles.com/report/5183bef9e2a9c30005648611",
+                                             "author": "http://api.velobstacles.com/users/519f7c699978d00472bab9e7",
+                                             "thumbnail": "http://cdn.velobstacles.com/d64c1cefeda4dadf695d3edd47ef1d85",
+                                             "original_resolution": "http://cdn.velobstacles.com/3d5e2f6f37c8ab46ec7cb3a29bfb0bca",
+                                             "low_resolution": "http://cdn.velobstacles.com/8cb4f88ffd80dac9c59859dcea8e2ae4"
+                                          }
+                                    }
+                                 ],
+                              "links":
+                                 {
+                                    "self": "http://api.velobstacles.com/reports/5183bef9e2a9c30005648611/photos",
+                                    "report": "http://api.velobstacles.com/reports/5183bef9e2a9c30005648611"
+                                 }
+                           }
                      },
                   "links":
                      {
@@ -100,7 +132,7 @@ Reports
                   "report":
                      {
                         "_id": "5183c05ee2a9c30005648624",
-                        "author": "tom_ford",
+                        "author": "rob_ford",
                         "description": "Big crack on road",
                         "created": "2013-03-28T09:15:12+00:00",
                         "location":
@@ -108,7 +140,8 @@ Reports
                               "type": "Point",
                               "coordinates": [73.5856, 45.5233]
                            },
-                        "tags": ["working site"]
+                        "tags": ["working site"],
+                        "report_photos": null
                      },
                   "links":
                      {
@@ -144,7 +177,39 @@ Reports
                      "type": "Point",
                      "coordinates": [73.59432, 45.5233]
                   },
-               "tags": ["accident", "water"]
+               "tags": ["accident", "water"],
+               "report_photos":
+                  {
+                     "photos":
+                        [
+                           {
+                              "photo":
+                                 {
+                                    "_id": "5118fe5ab821d90005c1a24d",
+                                    "author": "devon",
+                                    "location":
+                                       {
+                                          "type": "Point",
+                                          "coordinates": [-73.583885, 45.522706]
+                                       }
+                                 },
+                              "links":
+                                 {
+                                    "self": "http://api.velobstacles.com/photo/5118fe5ab821d90005c1a24d",
+                                    "report": "http://api.velobstacles.com/report/5183bef9e2a9c30005648611",
+                                    "author": "http://api.velobstacles.com/users/519f7c699978d00472bab9e7",
+                                    "thumbnail": "http://cdn.velobstacles.com/d64c1cefeda4dadf695d3edd47ef1d85",
+                                    "original_resolution": "http://cdn.velobstacles.com/3d5e2f6f37c8ab46ec7cb3a29bfb0bca",
+                                    "low_resolution": "http://cdn.velobstacles.com/8cb4f88ffd80dac9c59859dcea8e2ae4"
+                                 }
+                           }
+                        ],
+                     "links":
+                        {
+                           "self": "http://api.velobstacles.com/reports/5183bef9e2a9c30005648611/photos",
+                           "report": "http://api.velobstacles.com/reports/5183bef9e2a9c30005648611"
+                        }
+                  }
             },
          "links":
             {
@@ -222,6 +287,7 @@ Photos
                   "photo":
                      {
                         "_id": "5118fe5ab821d90005c1a24d",
+                        "author": "devon",
                         "location":
                            {
                               "type": "Point",
@@ -232,6 +298,7 @@ Photos
                      {
                         "self": "http://api.velobstacles.com/photo/5118fe5ab821d90005c1a24d",
                         "report": "http://api.velobstacles.com/report/5183bef9e2a9c30005648611",
+                        "author": "http://api.velobstacles.com/users/519f7c699978d00472bab9e7",
                         "thumbnail": "http://cdn.velobstacles.com/d64c1cefeda4dadf695d3edd47ef1d85",
                         "original_resolution": "http://cdn.velobstacles.com/3d5e2f6f37c8ab46ec7cb3a29bfb0bca",
                         "low_resolution": "http://cdn.velobstacles.com/8cb4f88ffd80dac9c59859dcea8e2ae4"
