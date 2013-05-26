@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 
 import pkg_resources
@@ -19,13 +18,12 @@ def main(global_config, **settings):
 def includeme(config):
     version = pkg_resources.get_distribution('velo').version
 
-    config.include('pyramid_rest')
+    config.include('pyramid_mongokit')
+
+    config.include('velo.renderer')
     config.include('velo.model')
+    config.include('velo.resources')
+    config.include('velo.views')
 
     config.add_static_view('/static/%s' % version, 'velo:static')
     config.add_static_view('/static/{version:\d+\.\d+\.\d+}', 'velo:static')
-
-    config.add_resource('medium', plural_name='media')
-    config.add_singular_resource('medium.content')
-
-    config.scan('velo.views')

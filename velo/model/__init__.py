@@ -1,7 +1,10 @@
-# -*- coding: utf-8 -*-
-from velo.model.medium import Medium
+from pyramid_mongokit import register_document
 
-from pyramid_rest.mongo import register_document
+from . import mongokit_patch  # monkey patch to enable 2dsphere index
+mongokit_patch.patch()
+
+from .photo import Photo
+
 
 __all__ = [
     'Medium',
@@ -9,4 +12,4 @@ __all__ = [
 
 
 def includeme(config):
-    register_document(config.registry, Medium)
+    register_document(config.registry, Photo)
