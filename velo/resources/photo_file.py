@@ -1,7 +1,7 @@
-from . import meta
+import royal
 
 
-class Collection(meta.Resource):
+class Collection(royal.Resource):
 
     def show(self):
         return self.ancestor['media'].model.get_content_grid_out()

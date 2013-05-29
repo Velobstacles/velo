@@ -18,9 +18,8 @@ def main(global_config, **settings):
 def includeme(config):
     version = pkg_resources.get_distribution('velo').version
 
-    config.include('pyramid_mongokit')
+    config.include('royal')
 
-    config.include('velo.renderer')
     config.include('velo.model')
     config.include('velo.resources')
     config.include('velo.views')

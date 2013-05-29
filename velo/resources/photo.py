@@ -1,38 +1,34 @@
-import cgi
 import logging
 
-import onctuous
+import royal
+
 from bson.objectid import InvalidId
 from pymongo import errors
+from pyramid.decorator import reify
+from royal import exceptions as exc
 
-import velo.exceptions as exc
-from . import meta
 from . import photo_file
 from ..model.photo import Photo
 
 log = logging.getLogger(__name__)
 
-schema = onctuous.Schema({
-    onctuous.Required('longitude'): onctuous.Coerce(float),
-    onctuous.Required('latitude'): onctuous.Coerce(float),
-    onctuous.Required('content'): meta.validate_isinstance(cgi.FieldStorage),
-    })
 
+class Collection(royal.Collection):
 
-class Collection(meta.Collection):
-
-    index_schema = onctuous.Schema({})
+    index_schema = {}
 
     def __getitem__(self, key):
         return Resource(key, self)
 
-    def index(self, limit=20, page=0):
-        skip = page * limit
-        cursor = self.db.Photo.find(limit=limit, skip=skip)
-        return meta.PaginatedResult(self, cursor, Resource, cursor.count())
+    def index(self, page, page_size):
+        skip = page_size * page
+        if self.model is None:
+            self.model = self.db.Photo.find(limit=page_size, skip=skip)
+        return royal.PaginatedResult(self, self.model, Resource,
+                                     self.model.count())
 
 
-class Resource(meta.Resource):
+class Resource(royal.Resource):
 
     children = {
         'content': photo_file.Collection,
@@ -41,27 +37,29 @@ class Resource(meta.Resource):
     def __getitem__(self, key):
         return self.children[key](key, self)
 
-    @property
+    @reify
     def links(self):
+        self_link = self.root['photos'][self.__name__]
         return {
-            'self': self,
-            'content': self['content'],
+            'self': self_link,
+            'content': self_link['content'],
             'report': self.root['reports'][self.model.report_id]
             }
 
     def load_model(self):
-        if not self.model:
+        if self.model is None:
             try:
                 self.model = Photo.get_by_id(self.db, self.__name__)
             except InvalidId:
                 raise exc.NotFound(self)
-        if not self.model:
+
+        if self.model is None:
             raise exc.NotFound(self)
+
         return self.model
 
     def show(self):
-        self.load_model()
-        return self.model
+        return self.load_model()
 
     def delete(self):
         self.load_model()

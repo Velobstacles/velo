@@ -1,11 +1,13 @@
-from . import meta, photo, report
+import royal
+
+from . import photo, report
 
 
 def includeme(config):
-    config.add_route('api', '/*traverse', factory=Root)
+    config.set_root_factory(Root)
 
 
-class Root(meta.Root):
+class Root(royal.Root):
     children = {
         'photos': photo.Collection,
         'reports': report.Collection,

@@ -57,7 +57,7 @@ class Photo(Document):
         try:
             photo.save()
         except errors.PyMongoError:
-            log.exception('photo.save() on db=%s', db)
+            log.exception('photo.save() db=%s photo=%s', db, photo)
             raise
         with photo.fs.new_file('content') as fp:
             try:
@@ -70,7 +70,7 @@ class Photo(Document):
 
     @staticmethod
     def get_by_report(db, report_id):
-        return db.find({'report_id': report_id}).all()
+        return db.Photo.find({'report_id': report_id})
 
     @staticmethod
     def get_by_id(db, photo_id):

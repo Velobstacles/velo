@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 from velo.tests.functional import TestController
 
 
-class TestPhoto(TestController):
+class Test(TestController):
 
     def setUp(self):
         from ...model.photo import Photo
@@ -62,9 +62,10 @@ class TestPhoto(TestController):
 
         self.assertIn('links', result.json)
         self.assertIn('self', result.json['links'])
-        self.assertIn('previous_page', result.json['links'])
-        self.assertIn('next_page', result.json['links'])
-        self.assertIn('last_page', result.json['links'])
+        self.assertIn('first', result.json['links'])
+        self.assertIn('last', result.json['links'])
+        self.assertIn('previous', result.json['links'])
+        self.assertIn('next', result.json['links'])
 
     def test_create(self):
         self.app.post('/photos', status=405)
