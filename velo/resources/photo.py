@@ -1,31 +1,72 @@
+import cgi
 import logging
+import mimetypes
 
+import onctuous
+import onctuous.validators
 import royal
 
-from bson.objectid import InvalidId
+from bson.objectid import InvalidId, ObjectId
 from pymongo import errors
 from pyramid.decorator import reify
 from royal import exceptions as exc
 
 from . import photo_file
-from ..model.photo import Photo
+from .validators import validate_isinstance
+from ..import model
 
 log = logging.getLogger(__name__)
 
 
 class Collection(royal.Collection):
 
-    index_schema = {}
+    default_radius = 50
+
+    index_schema = onctuous.Schema({
+        onctuous.Optional('location'): onctuous.Match(r'\d(\.\d)?,\d(\.\d)?'),
+        onctuous.Optional('radius'): onctuous.InRange(min=1),
+        })
+
+    create_schema = onctuous.Schema({
+        onctuous.Required('report_id'): onctuous.Coerce(ObjectId),
+        onctuous.Required('author'): onctuous.Coerce(unicode),
+        onctuous.Required('longitude'): onctuous.Coerce(float),
+        onctuous.Required('latitude'): onctuous.Coerce(float),
+        onctuous.Required('content'): validate_isinstance(cgi.FieldStorage),
+        })
 
     def __getitem__(self, key):
         return Resource(key, self)
 
-    def index(self, page, page_size):
-        skip = page_size * page
+    def index(self, page, page_size, location=None, radius=None):
+        query = {}
+        if location is not None:
+            coordinates = [float(s) for s in location.split(',')]
+            radius = radius if radius else Collection.default_radius
+            cursor = model.Photo.get_by_location(self.db, page, page_size,
+                                                 coordinates, radius)
+            query['location'] = location
+            query['radius'] = radius
+        else:
+            cursor = model.Photo.get_newests(self.db, page, page_size)
+        query.update(page=page, page_size=page_size)
         if self.model is None:
-            self.model = self.db.Photo.find(limit=page_size, skip=skip)
-        return royal.PaginatedResult(self, self.model, Resource,
+            self.model = cursor
+        return royal.PaginatedResult(self, self.model, Resource, query,
                                      self.model.count())
+
+    def create(self, report_id, author, longitude, latitude, content):
+        mime_type = mimetypes.guess_type(content.filename)
+        photo = model.Photo.create(
+            self.db,
+            report_id,
+            author,
+            longitude,
+            latitude,
+            content.file,
+            mime_type[0],
+            )
+        return Resource(str(photo._id), self, model=photo)
 
 
 class Resource(royal.Resource):
@@ -49,7 +90,7 @@ class Resource(royal.Resource):
     def load_model(self):
         if self.model is None:
             try:
-                self.model = Photo.get_by_id(self.db, self.__name__)
+                self.model = model.Photo.get_by_id(self.db, self.__name__)
             except InvalidId:
                 raise exc.NotFound(self)
 

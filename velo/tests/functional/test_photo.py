@@ -7,9 +7,20 @@ from velo.tests.functional import TestController
 class Test(TestController):
 
     def setUp(self):
-        from ...model.photo import Photo
-        obj_id = ObjectId()
-        photo1 = Photo.create(
+        from ...model import Photo, Report
+
+        self.report1 = Report.create(
+            self.db,
+            u'hadrien',
+            u'Road blocked',
+            -73.583885,
+            45.522706,
+            ['blocked']
+            )
+
+        obj_id = self.report1._id
+
+        self.photo1 = Photo.create(
             self.db,
             obj_id,
             u'bob',
@@ -18,9 +29,9 @@ class Test(TestController):
             pkg_resources.resource_stream('velo', 'static/img/trollface.png'),
             'image/png',
             )
-        self.photo_id1 = photo1._id
+        self.photo_id1 = self.photo1._id
 
-        photo2 = Photo.create(
+        self.photo2 = Photo.create(
             self.db,
             obj_id,
             u'bob',
@@ -29,9 +40,9 @@ class Test(TestController):
             pkg_resources.resource_stream('velo', 'static/img/trollface.png'),
             'image/png',
             )
-        self.photo_id2 = photo2._id
+        self.photo_id2 = self.photo2._id
 
-        photo3 = Photo.create(
+        self.photo3 = Photo.create(
             self.db,
             obj_id,
             u'bob',
@@ -40,7 +51,7 @@ class Test(TestController):
             pkg_resources.resource_stream('velo', 'static/img/trollface.png'),
             'image/png',
             )
-        self.photo_id3 = photo3._id
+        self.photo_id3 = self.photo3._id
 
     def tearDown(self):
         self.db.Photo.collection.remove()
@@ -68,7 +79,24 @@ class Test(TestController):
         self.assertIn('next', result.json['links'])
 
     def test_create(self):
-        self.app.post('/photos', status=405)
+        stream = pkg_resources.resource_stream('velo',
+                                               'static/img/trollface.jpg')
+        params = {
+            u'report_id': unicode(self.report1._id),
+            u'author': self.report1.author,
+            u'longitude': -73.583885,
+            u'latitude': 45.522706,
+            }
+        result = self.app.post(
+            '/photos',
+            params=params,
+            upload_files=[('content', 'image.png', stream.read())]
+            )
+        photo_id = ObjectId(result.json['photo']['_id'])
+        photo = self.db.Photo.one({'_id': photo_id})
+
+        self.assertIsNotNone(photo)
+        self.assertIsNotNone(photo.get_content_grid_out())
 
     def test_show(self):
         result = self.app.get('/photos/%s' % self.photo_id1)

@@ -10,10 +10,10 @@ import pymongo
 
 
 def patch():
-  DocumentProperties._validate_descriptors = classmethod(_validate_descriptors)
+    DocumentProperties._validate_descriptors = classmethod(_validate_descriptors)
 
 
-def _validate_descriptors(cls, attrs):
+def _validate_descriptors(cls, attrs):  # pragma: no cover
     SchemaProperties._validate_descriptors(attrs)
     # validate index descriptor
     if attrs.get('migration_handler') and attrs.get('use_schemaless'):

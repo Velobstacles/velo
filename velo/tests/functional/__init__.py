@@ -11,21 +11,20 @@ settings = {
     }
 
 
-def setUpPackage():
-    from pyramid.config import Configurator
-    TestController.config = Configurator(settings=settings)
-    TestController.config.include('velo')
-
-
 class TestController(unittest.TestCase):
 
-    _app = None
+    maxDiff = None
 
-    @property
+    @reify
+    def config(self):
+        from pyramid.config import Configurator
+        config = Configurator(settings=settings)
+        config.include('velo')
+        return config
+
+    @reify
     def app(self):
-        if TestController._app is None:
-            TestController._app = TestController.config.make_wsgi_app()
-        return webtest.TestApp(TestController._app)
+        return webtest.TestApp(self.config.make_wsgi_app())
 
     @reify
     def db(self):
@@ -33,4 +32,4 @@ class TestController(unittest.TestCase):
 
     @reify
     def connection(self):
-        return get_mongo_connection(TestController.config.registry)
+        return get_mongo_connection(self.config.registry)

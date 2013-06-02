@@ -8,7 +8,8 @@ from .report import Report
 
 
 __all__ = [
-    'Medium',
+    'Photo',
+    'Report',
     ]
 
 

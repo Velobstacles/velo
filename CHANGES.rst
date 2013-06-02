@@ -1,10 +1,13 @@
-* Add medium content sub resource which returns medium content;
-* Add medium resource with endpoint: /media;
-* Add medium model with a draft structure;
-* Add model configuration;
-* MONGO_URI is extracted from os.environ;
-* Set-up unit and functional tests;
 
-0.0.1
------
-* Project setup.
+
+0.2
+---
+
+- Dropped pyramid_rest in favor of traversal based royal: https://pypi.python.org/pypi/royal
+- Remove medium resource
+- Add resources:
+    report
+    photo: content is written in gridFS: It should be removed in favor of
+    Amazon S3
+    photo_content: To be removed in favor of amazon S3
+- Tests are not reliable enough-

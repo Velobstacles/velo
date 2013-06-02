@@ -5,8 +5,7 @@
 <div class="hero-unit">
   <h1>Hello, world!</h1>
   <p>Some dumb placeholder for the velo API. It should contains API documentation</p>
-  <p>Media index is <a href="${request.resource_url(_context, 'media')}">here</a></p>
-  <p><a href="">Add media</a></p>
+  <p>Report index is <a href="${request.resource_url(_context, 'reports')}">here</a></p>
 </div>
 
 <!-- Example row of columns -->

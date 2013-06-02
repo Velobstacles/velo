@@ -14,30 +14,29 @@ log = logging.getLogger(__name__)
 
 class Collection(royal.Collection):
 
-    index_schema = {
-        onctuous.Required('location'): onctuous.Match(r'\d(\.\d)?,\d(\.\d)?'),
-        onctuous.Required('radius', 50): onctuous.InRange(min=1),
-        }
+    default_radius = 50
+
+    index_schema = onctuous.Schema({
+        onctuous.Optional('location'): onctuous.Match(r'\d(\.\d)?,\d(\.\d)?'),
+        onctuous.Optional('radius'): onctuous.InRange(min=1),
+        })
 
     def __getitem__(self, key):
         return Resource(key, self)
 
-    def index(self, page, page_size, location, radius):
-        skip = page_size * page
-        location = [float(s) for s in location.split(',')]
-        geoquery = {
-            'location': {
-                '$near': {
-                    '$geometry': {
-                        "type": "Point",
-                        "coordinates": location,
-                        },
-                    '$maxDistance': radius
-                    }
-                }
-            }
-        cursor = self.db.Report.find(geoquery, limit=page_size, skip=skip)
-        return royal.PaginatedResult(self, cursor, Resource, cursor.count())
+    def index(self, page, page_size, location=None, radius=None):
+        if location is not None:
+            coordinates = [float(s) for s in location.split(',')]
+            radius = radius if radius else Collection.default_radius
+            cursor = model.Report.get_by_location(self.db, page, page_size,
+                                                  coordinates, radius)
+            query = dict(page=page, page_size=page_size, location=location,
+                         radius=radius)
+        else:
+            cursor = model.Report.get_newests(self.db, page, page_size)
+            query = dict(page=page, page_size=page_size)
+        return royal.PaginatedResult(self, cursor, Resource, query,
+                                     cursor.count())
 
 
 class Resource(royal.Resource):
@@ -71,4 +70,6 @@ class Resource(royal.Resource):
         return self.model
 
     def show(self):
-        return self.load_model()
+        report = self.load_model()
+        report['created'] = report._id.generation_time
+        return report
