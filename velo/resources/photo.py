@@ -2,8 +2,8 @@ import cgi
 import logging
 import mimetypes
 
-import onctuous
-import onctuous.validators
+from onctuous import Schema, Optional, Match, InRange, Required, Coerce
+
 import royal
 
 from bson.objectid import InvalidId, ObjectId
@@ -22,17 +22,17 @@ class Collection(royal.Collection):
 
     default_radius = 50
 
-    index_schema = onctuous.Schema({
-        onctuous.Optional('location'): onctuous.Match(r'\d(\.\d)?,\d(\.\d)?'),
-        onctuous.Optional('radius'): onctuous.InRange(min=1),
+    index_schema = Schema({
+        Optional('location'): Match('-?\d+(\.\d+)?,-?\d+(\.\d+)?'),
+        Optional('radius'): InRange(min=1),
         })
 
-    create_schema = onctuous.Schema({
-        onctuous.Required('report_id'): onctuous.Coerce(ObjectId),
-        onctuous.Required('author'): onctuous.Coerce(unicode),
-        onctuous.Required('longitude'): onctuous.Coerce(float),
-        onctuous.Required('latitude'): onctuous.Coerce(float),
-        onctuous.Required('content'): validate_isinstance(cgi.FieldStorage),
+    create_schema = Schema({
+        Required('report_id'): Coerce(ObjectId),
+        Required('author'): Coerce(unicode),
+        Required('longitude'): Coerce(float),
+        Required('latitude'): Coerce(float),
+        Required('content'): validate_isinstance(cgi.FieldStorage),
         })
 
     def __getitem__(self, key):

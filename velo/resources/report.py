@@ -1,6 +1,6 @@
 import logging
 
-import onctuous
+from onctuous import Schema, Optional, Match, InRange
 import royal
 
 from bson.objectid import InvalidId
@@ -16,9 +16,9 @@ class Collection(royal.Collection):
 
     default_radius = 50
 
-    index_schema = onctuous.Schema({
-        onctuous.Optional('location'): onctuous.Match(r'\d(\.\d)?,\d(\.\d)?'),
-        onctuous.Optional('radius'): onctuous.InRange(min=1),
+    index_schema = Schema({
+        Optional('location'): Match('-?\d+(\.\d+)?,-?\d+(\.\d+)?'),
+        Optional('radius'): InRange(min=1),
         })
 
     def __getitem__(self, key):

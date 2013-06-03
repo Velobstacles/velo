@@ -12,7 +12,7 @@ class Test(TestController):
             self.db,
             u'hadrien',
             u'Road blocked',
-            1, 1,
+            -73, 45,
             ['blocked']
             )
         self.photo1 = Photo.create(
@@ -38,7 +38,7 @@ class Test(TestController):
         self.db.Photo.collection.drop()
 
     def test_index_filtered_by_location(self):
-        result = self.app.get('/reports?location=1.0%2C1.0')
+        result = self.app.get(u'/reports?location=-73.0001%2C45.0001')
 
         self.assertIn('links', result.json)
         self.assertIn('reports', result.json)
@@ -46,17 +46,17 @@ class Test(TestController):
         links = result.json['links']
         self.assertEqual(
             'http://localhost/reports/'
-            '?radius=50&location=1.0%2C1.0&page_size=20&page=0',
+            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
             links['self'],
             )
         self.assertEqual(
             'http://localhost/reports/'
-            '?radius=50&location=1.0%2C1.0&page_size=20&page=0',
+            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
             links['last'],
             )
         self.assertEqual(
             'http://localhost/reports/'
-            '?radius=50&location=1.0%2C1.0&page_size=20&page=0',
+            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
             links['first'],
             )
 
@@ -82,7 +82,7 @@ class Test(TestController):
                 u"author": u"hadrien",
                 u"location": {
                     u"type": u"Point",
-                    u"coordinates": [1, 1],
+                    u"coordinates": [-73, 45],
                     },
                 u"tags": [u"blocked"],
                 },
@@ -125,7 +125,7 @@ class Test(TestController):
                 u"author": u"hadrien",
                 u"location": {
                     u"type": u"Point",
-                    u"coordinates": [1, 1],
+                    u"coordinates": [-73, 45],
                     },
                 u"tags": [u"blocked"],
                 },
