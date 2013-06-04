@@ -3,5 +3,10 @@ import os
 
 
 def setUpPackage():
-    message = 'MONGO_URI not found in environment variables'
-    assert 'MONGO_URI' in os.environ, message
+    os.environ['MONGO_URI'] = 'mongodb://localhost'
+    os.environ['MONGO_DB_NAME'] = 'velo_test'
+
+
+def tearDownPackage():
+    del os.environ['MONGO_URI']
+    del os.environ['MONGO_DB_NAME']
