@@ -82,13 +82,12 @@ class Test(TestController):
         stream = pkg_resources.resource_stream('velo',
                                                'static/img/trollface.jpg')
         params = {
-            u'report_id': unicode(self.report1._id),
             u'author': self.report1.author,
             u'longitude': -73.583885,
             u'latitude': 45.522706,
             }
         result = self.app.post(
-            '/photos',
+            '/reports/%s/photos' % self.report1._id,
             params=params,
             upload_files=[('content', 'image.png', stream.read())]
             )

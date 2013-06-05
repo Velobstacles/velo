@@ -38,6 +38,7 @@ class Photo(Document):
     indexes = [
         {'fields': ('location', GEOSPHERE)},
         {'fields': 'report_id'},
+        {'fields': 'author'},
         ]
 
     def get_content_grid_out(self):

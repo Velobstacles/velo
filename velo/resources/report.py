@@ -6,7 +6,7 @@ import royal
 from bson.objectid import InvalidId
 from royal import exceptions as exc
 
-from . import photo
+from . import report_photo
 from .. import model
 
 log = logging.getLogger(__name__)
@@ -41,14 +41,13 @@ class Collection(royal.Collection):
 
 class Resource(royal.Resource):
 
+    children = {
+        'photos': report_photo.Collection,
+        }
+
     def __getitem__(self, key):
         self.load_model()
-
-        if key == 'photos':
-            report_photos = model.Photo.get_by_report(self.db, self.model._id)
-            return photo.Collection(key, self, model=report_photos)
-
-        raise KeyError(key)
+        return self.children[key](key, self)
 
     @property
     def links(self):
@@ -73,3 +72,10 @@ class Resource(royal.Resource):
         report = self.load_model()
         report['created'] = report._id.generation_time
         return report
+
+    def delete(self):
+        self.load_model()
+        #try:
+        self.model.delete()
+        #except errors.PyMongoError:
+        #    log.exception('delete on %s', self.model)

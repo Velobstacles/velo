@@ -56,14 +56,13 @@ Reports
 *******
 
 **GET** :file:`/reports?location={longitude},{latitude}&radius={radius}&page={index}&page_size={size}`
-   Returns a paginated list of reports.
+   Returns a paginated list of reports. If no parameter is provided, reports
+   in antechronological order (newests first).
 
-   Required query parameters:
+   Optionnal query parameters:
 
       :location: The longitude/latitude around which to retrieve information.
                  This must be specified as `longitude,latitude`.
-
-   Optionnal query parameters:
 
       :radius: Defines the distance in meters within which to return results.
                Default to 50.
@@ -160,7 +159,7 @@ Reports
       }
 
 
-**GET** :file:`/reports/5183c05ee2a9c30005648624`
+**GET** :file:`/reports/{_id}`
    Returns a report.
 
    Response format example::
@@ -263,6 +262,9 @@ Reports
             }
       }
 
+**DELETE** :file:`/reports/{_id}`
+   Delete a report.
+
 .. _photos:
 
 Photos
@@ -334,3 +336,5 @@ Photos
             "last": "http://api.velobstacles.com/media?page=5&page_size=2"
          }
       }
+
+
