@@ -11,6 +11,8 @@ log = logging.getLogger(__name__)
 
 class User(Document):
 
+    __collection__ = 'user'
+
     structure = {
         u'name': unicode,
         u'username': unicode,
@@ -25,10 +27,10 @@ class User(Document):
         'password',
         ]
 
-    indexes = {
+    indexes = [
         {'fields': 'username', 'unique': True},
         {'fields': 'mail', 'unique': True},
-        }
+        ]
 
     @staticmethod
     def create(db, name, username, mail, password):

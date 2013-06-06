@@ -1,3 +1,5 @@
+import re
+
 import pkg_resources
 
 from velo.tests.functional import TestController
@@ -106,7 +108,7 @@ class Test(TestController):
 
         self.assertEqual(expected, links)
 
-    def test_report(self):
+    def test_show(self):
         result = self.app.get('/reports/%s' % self.report1._id)
 
         expected = {
@@ -133,7 +135,7 @@ class Test(TestController):
 
         self.assertEqual(expected, result.json)
 
-    def test_report_photos(self):
+    def test_report_photos_index(self):
         result = self.app.get('/reports/%s/photos/' % self.report1._id)
 
         r_id = unicode(self.report1._id)
@@ -164,5 +166,48 @@ class Test(TestController):
                     u'report_id': r_id
                     }
                 }]
+            }
+        self.assertEqual(expected, result.json)
+
+    def test_create(self):
+        from ...model import Report
+        params = {
+            u'author': 'bob',
+            u'longitude': -73.583885,
+            u'latitude': 45.522706,
+            u'description': 'wow a description',
+            u'tags': ['broken', 'blocked']
+            }
+        result = self.app.post('/reports/', params=params)
+
+        location_re = re.compile(r'http://localhost/reports/([a-f0-9]{24})/')
+        location = result.headers.getone('Location')
+        self.assertRegexpMatches(location, location_re)
+
+        report_id = location_re.findall(location).pop()
+
+        report = Report.get_by_id(self.db, report_id)
+        self.assertIsNotNone(report)
+
+        self.assertEqual('bob', report.author)
+        self.assertEqual([-73.583885, 45.522706], report.location.coordinates)
+        self.assertEqual(u'wow a description', report.description)
+        self.assertEqual([u'broken', u'blocked'], report.tags)
+
+        expected = {
+            u'links': {
+                u'self': unicode(location),
+                u'photos': u'%sphotos/' % location,
+                },
+            u'report': {
+                u'_id': unicode(report_id),
+                u'author': u'bob',
+                u'description': u'wow a description',
+                u'tags': [u'broken', u'blocked'],
+                u'location': {
+                    u'type': u'Point',
+                    u'coordinates': [-73.583885, 45.522706]
+                    }
+                }
             }
         self.assertEqual(expected, result.json)

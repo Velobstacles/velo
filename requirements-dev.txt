@@ -1,9 +1,7 @@
-d2to1
-nose
-nosexcover
-coverage
-mock
-webtest
-yanc
-Sphinx
+-r requirements-test.txt
+
 waitress
+ipdb
+Sphinx
+
+-e .

@@ -2,9 +2,9 @@ import logging
 import shutil
 
 from bson.objectid import ObjectId
-from pymongo import errors, GEOSPHERE, DESCENDING
+from pymongo import errors, GEOSPHERE
 
-from .base import Document, get_geoquery
+from .base import Document
 
 log = logging.getLogger(__name__)
 
@@ -72,26 +72,3 @@ class Photo(Document):
     @staticmethod
     def get_by_report(db, report_id):
         return db.Photo.find({'report_id': report_id})
-
-    @staticmethod
-    def get_by_id(db, photo_id):
-        if isinstance(photo_id, (str, unicode)):
-            photo_id = ObjectId(photo_id)
-        return db.Photo.one({'_id': photo_id})
-
-    @staticmethod
-    def get_newests(db, page, page_size):
-        skip = page_size * page
-        return (db.Photo.find()
-                        .sort('_id', DESCENDING)
-                        .limit(page_size)
-                        .skip(skip)
-                )
-
-    @staticmethod
-    def get_by_location(db, page, page_size, location, radius):
-        skip = page_size * page
-        return (db.Photo.find(get_geoquery(location, radius))
-                        .limit(page_size)
-                        .skip(skip)
-                )

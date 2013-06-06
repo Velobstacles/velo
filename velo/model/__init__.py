@@ -5,11 +5,13 @@ mongokit_patch.patch()
 
 from .photo import Photo
 from .report import Report
+from .user import User
 
 
 __all__ = [
     'Photo',
     'Report',
+    'User',
     ]
 
 
@@ -21,3 +23,6 @@ def includeme(config):
 
     register_document(config.registry, Report)
     generate_index(config.registry, Report)
+
+    register_document(config.registry, User)
+    generate_index(config.registry, User)
