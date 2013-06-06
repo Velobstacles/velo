@@ -2,7 +2,7 @@
 import setuptools
 
 setuptools.setup(
-    setup_requires=['d2to2'],
+    setup_requires=['d2to1'],
     d2to1=True,
     test_suite='nose.collector',
     package_data={"velo": [
