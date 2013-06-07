@@ -26,18 +26,18 @@ class Collection(royal.Collection):
     def __getitem__(self, key):
         return Resource(key, self)
 
-    def index(self, page, page_size, location=None, radius=None):
-        query = dict(page=page, page_size=page_size)
+    def index(self, offset, limit, location=None, radius=None):
+        query = dict(offset=offset, limit=limit)
 
         if location is not None:
             coordinates = [float(s) for s in location.split(',')]
             radius = radius if radius else Collection.default_radius
-            cursor = model.Photo.get_by_location(self.db, page, page_size,
+            cursor = model.Photo.get_by_location(self.db, offset, limit,
                                                  coordinates, radius)
             query['location'] = location
             query['radius'] = radius
         else:
-            cursor = model.Photo.get_newests(self.db, page, page_size)
+            cursor = model.Photo.get_newests(self.db, offset, limit)
 
         return royal.PaginatedResult(self, cursor, Resource, query,
                                      cursor.count())

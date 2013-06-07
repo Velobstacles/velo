@@ -57,7 +57,7 @@ class Test(TestController):
         self.db.Photo.collection.remove()
 
     def test_index(self):
-        result = self.app.get('/photos?page=1&page_size=1')
+        result = self.app.get('/photos?offset=1&limit=1')
 
         self.assertIn('photos', result.json)
         self.assertIsInstance(result.json['photos'], list)

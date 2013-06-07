@@ -8,22 +8,22 @@ class Document(document.Document):
     use_dot_notation = True
 
     @classmethod
-    def get_newests(cls, db, page, page_size):
-        skip = page * page_size
+    def get_newests(cls, db, offset, limit):
+        skip = offset * limit
         return (db[cls.__name__].find()
                                 .sort('_id', DESCENDING)
-                                .limit(page_size)
+                                .limit(limit)
                                 .skip(skip)
                 )
 
     @classmethod
-    def get_by_location(cls, db, page, page_size, coordinates, radius,
+    def get_by_location(cls, db, offset, limit, coordinates, radius,
                         field='location'):
-        skip = page_size * page
+        skip = limit * offset
         return (
             db[cls.__name__]
             .find(get_geoquery('location', coordinates, radius))
-            .limit(page_size)
+            .limit(limit)
             .skip(skip)
             )
 

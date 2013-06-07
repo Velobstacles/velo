@@ -1,6 +1,6 @@
 import royal
 
-from . import photo, report
+from . import photo, report, user
 
 
 def includeme(config):
@@ -11,6 +11,7 @@ class Root(royal.Root):
     children = {
         'photos': photo.Collection,
         'reports': report.Collection,
+        'users': user.Collection,
         }
 
     def __getitem__(self, key):

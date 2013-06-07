@@ -1,7 +1,6 @@
 import logging
 
-import bcrypt
-
+from passlib.hash import bcrypt
 from pymongo import errors
 
 from .base import Document
@@ -38,10 +37,26 @@ class User(Document):
         user.name = name
         user.username = username
         user.mail = mail
-        user.password = bcrypt.hashpw(password, bcrypt.gensalt())
+        user.password = unicode(bcrypt.encrypt(password))
         try:
             user.save()
+        except errors.DuplicateKeyError:
+            raise
         except errors.PyMongoError:
-            log.exception('user.save db=%s', db)
+            log.exception('User.save db=%s', db)
             raise
         return user
+
+    @staticmethod
+    def verify(db, username, password):
+        try:
+            user = db.User.find_one({'username': username})
+        except errors.PyMongoError:
+            log.exception('User.verify username=%s', username)
+            raise
+        try:
+            if user and bcrypt.verify(password, user.password):
+                return user
+        except:
+            pass
+        return False

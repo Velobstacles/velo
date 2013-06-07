@@ -1,4 +1,8 @@
-from onctuous import Schema, Required
+from onctuous import Schema, Required, Coerce, Match
+
+from bson.objectid import InvalidId
+from pymongo import errors
+from royal import exceptions as exc
 
 import royal
 
@@ -7,17 +11,44 @@ from ..model import User
 
 class Collection(royal.Collection):
 
-    create_schema = None
+    create_schema = Schema({
+        Required('name'): Coerce(unicode),
+        Required('username'): Match('[a-zA-Z0-9_]'),
+        Required('mail'): Coerce(unicode),
+        Required('password'): Coerce(unicode),
+        })
 
-    def index(self, page, page_size):
-        cursor = User.get_newests(self.db, page, page_size)
-        query = dict(page=page, page_size=page_size)
+    def index(self, offset, limit):
+        cursor = User.get_newests(self.db, offset, limit)
+        query = dict(offset=offset, limit=limit)
         return royal.PaginatedResult(self, cursor, Resource, query,
                                      cursor.count())
 
-    def create(self):
-        pass
+    def create(self, name, username, mail, password):
+        try:
+            user = User.create(self.db, name, username, mail, password)
+        except errors.DuplicateKeyError:
+            raise exc.Conflict(self)
+        else:
+            return Resource(str(user._id), self, model=user)
 
 
 class Resource(royal.Resource):
-    pass
+
+    def load_model(self):
+        if self.model is None:
+            try:
+                self.model = User.get_by_id(self.db, self.__name__)
+            except InvalidId:
+                raise exc.NotFound(self)
+
+        if self.model is None:
+            raise exc.NotFound(self)
+
+        return self.model
+
+    def show(self):
+        user = self.load_model()
+        user['created'] = user._id.generation_time
+        del user['password']
+        return user

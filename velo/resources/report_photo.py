@@ -23,9 +23,9 @@ class Collection(royal.Collection):
     def report(self):
         return self.__parent__
 
-    def index(self, page, page_size):
+    def index(self, offset, limit):
         cursor = model.Photo.get_by_report(self.db, self.report.model._id)
-        query = dict(page=page, page_size=page_size)
+        query = dict(offset=offset, limit=limit)
         return royal.PaginatedResult(self, cursor, photo.Resource, query,
                                      cursor.count())
 

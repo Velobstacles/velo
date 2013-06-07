@@ -2,7 +2,7 @@ import re
 
 import pkg_resources
 
-from velo.tests.functional import TestController
+from ..functional import TestController
 
 
 class Test(TestController):
@@ -46,19 +46,20 @@ class Test(TestController):
         self.assertIn('reports', result.json)
 
         links = result.json['links']
-        self.assertEqual(
+
+        self.assertUrlEqual(
             'http://localhost/reports/'
-            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
+            '?radius=50&limit=20&location=-73.0001%2C45.0001&offset=0',
             links['self'],
             )
-        self.assertEqual(
+        self.assertUrlEqual(
             'http://localhost/reports/'
-            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
+            '?radius=50&limit=20&location=-73.0001%2C45.0001&offset=0',
             links['last'],
             )
-        self.assertEqual(
+        self.assertUrlEqual(
             'http://localhost/reports/'
-            '?radius=50&location=-73.0001%2C45.0001&page_size=20&page=0',
+            '?radius=50&limit=20&location=-73.0001%2C45.0001&offset=0',
             links['first'],
             )
 
@@ -101,9 +102,9 @@ class Test(TestController):
         links = result.json['links']
 
         expected = {
-            u"self": u"http://localhost/reports/?page=0&page_size=20",
-            u"first": u"http://localhost/reports/?page=0&page_size=20",
-            u"last": u"http://localhost/reports/?page=0&page_size=20",
+            u"self": u"http://localhost/reports/?limit=20&offset=0",
+            u"first": u"http://localhost/reports/?limit=20&offset=0",
+            u"last": u"http://localhost/reports/?limit=20&offset=0",
             }
 
         self.assertEqual(expected, links)
@@ -144,11 +145,11 @@ class Test(TestController):
         expected = {
             u'links': {
                 u'first': u'http://localhost/reports/%s/photos/'
-                          '?page=0&page_size=20' % r_id,
+                          '?offset=0&limit=20' % r_id,
                 u'last': u'http://localhost/reports/%s/photos/'
-                          '?page=0&page_size=20' % r_id,
+                          '?offset=0&limit=20' % r_id,
                 u'self': u'http://localhost/reports/%s/photos/'
-                          '?page=0&page_size=20' % r_id,
+                          '?offset=0&limit=20' % r_id,
                 },
             u'photos': [{
                 u'links': {
@@ -167,7 +168,17 @@ class Test(TestController):
                     }
                 }]
             }
-        self.assertEqual(expected, result.json)
+        self.assertEqual(expected['photos'][0]['photo'],
+                         result.json['photos'][0]['photo'])
+
+        self.assertUrlEqual(expected['links']['first'],
+                            result.json['links']['first'])
+
+        self.assertUrlEqual(expected['links']['self'],
+                            result.json['links']['self'])
+
+        self.assertUrlEqual(expected['links']['last'],
+                            result.json['links']['last'])
 
     def test_create(self):
         from ...model import Report
@@ -203,6 +214,7 @@ class Test(TestController):
                 u'_id': unicode(report_id),
                 u'author': u'bob',
                 u'description': u'wow a description',
+                u'created': unicode(report._id.generation_time.isoformat()),
                 u'tags': [u'broken', u'blocked'],
                 u'location': {
                     u'type': u'Point',

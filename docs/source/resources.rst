@@ -55,7 +55,7 @@ To be done
 Reports
 *******
 
-**GET** :file:`/reports?location={longitude},{latitude}&radius={radius}&page={index}&page_size={size}`
+**GET** :file:`/reports?location={longitude},{latitude}&radius={radius}&offset={offset}&limit={limit}`
    Returns a paginated list of reports. If no parameter is provided, reports
    in antechronological order (newests first).
 
@@ -66,10 +66,10 @@ Reports
 
       :radius: Defines the distance in meters within which to return results.
                Default to 50.
-      :page: Page index of result set. Default to 0 (first page).
-      :page_size: Number of reports returned by page, default to 20.
+      :offset: Numbers of records to skip. Default to 0.
+      :limit: Maximum number of reports returned (default to 20).
 
-   Response format example for `/reports?location=-73.583885,45.522706&page_size=2&page=1`::
+   Response format example for `/reports?location=-73.583885,45.522706&limit=2&offset=2`::
 
       {
          "reports":
@@ -150,11 +150,11 @@ Reports
             ],
          "links":
             {
-               "self": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&page=1&page_size=2",
-               "previous": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&page=0&page_size=2",
-               "next": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&page=2&page_size=2",
-               "first": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&page=0&page_size=2",
-               "last": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&page=11&page_size=2"
+               "self": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&offset=2&limit=2",
+               "previous": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&offset=0&limit=2",
+               "next": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&offset=4&limit=2",
+               "first": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&offset=0&limit=2",
+               "last": "http://api.velobstacles.com/reports?location=-73.583885,45.522706&radius=50&offset=6&limit=2"
             }
       }
 
@@ -270,17 +270,17 @@ Reports
 Photos
 ******
 
-**GET** :file:`/photos?page={index}&page_size={size}`
+**GET** :file:`/photos?offset={offset}&limit={limit}`
    Get photo list.
 
    Optionnal query parameters:
 
       :radius: Defines the distance in meters within which to return results.
                Default to 50.
-      :page: Page index of result set. Default to 0 (first page).
-      :page_size: Number of photos returned by page, default to 20.
+      :offset: Numbers of photo to skip.
+      :limit: Maximum number of photos returned (default to 20).
 
-   Response format example for `/photos?page=1&page_size=2`::
+   Response format example for `/photos?offset=4&limit=2`::
 
       {
          "photos":
@@ -329,12 +329,10 @@ Photos
             ],
          "links":
          {
-            "self": "http://api.velobstacles.com/media?page=1&page_size=2",
-            "previous": "http://api.velobstacles.com/media?page=0&page_size=2",
-            "next": "http://api.velobstacles.com/media?page=2&page_size=2",
-            "first": "http://api.velobstacles.com/media?page=0&page_size=2",
-            "last": "http://api.velobstacles.com/media?page=5&page_size=2"
+            "self": "http://api.velobstacles.com/media?offset=4&limit=2",
+            "previous": "http://api.velobstacles.com/media?offset=2&limit=2",
+            "next": "http://api.velobstacles.com/media?offset=6&limit=2",
+            "first": "http://api.velobstacles.com/media?offset=0&limit=2",
+            "last": "http://api.velobstacles.com/media?offset=10&limit=2"
          }
       }
-
-
