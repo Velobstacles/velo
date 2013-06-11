@@ -7,6 +7,7 @@ from royal import exceptions as exc
 import royal
 
 from ..model import User
+from . import user_report
 
 
 class Collection(royal.Collection):
@@ -17,6 +18,9 @@ class Collection(royal.Collection):
         Required('mail'): Coerce(unicode),
         Required('password'): Coerce(unicode),
         })
+
+    def __getitem__(self, key):
+        return Resource(key, self)
 
     def index(self, offset, limit):
         cursor = User.get_newests(self.db, offset, limit)
@@ -34,6 +38,14 @@ class Collection(royal.Collection):
 
 
 class Resource(royal.Resource):
+
+    children = {
+        'reports': user_report.Collection,
+        }
+
+    def __getitem__(self, key):
+        self.load_model()
+        return self.children[key](key, self)
 
     def load_model(self):
         if self.model is None:

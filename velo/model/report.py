@@ -48,3 +48,7 @@ class Report(Document):
             log.exception('report.save() db=%s report=%s', db, report)
             raise
         return report
+
+    @staticmethod
+    def get_by_author(db, username, offset, limit):
+        return db.Report.find({'author': username}).skip(offset).limit(limit)

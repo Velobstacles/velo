@@ -1,6 +1,6 @@
 import logging
 
-from onctuous import Schema, Required, Optional, Match, InRange, Coerce
+from onctuous import Schema, Optional, Match, InRange
 import royal
 
 from bson.objectid import InvalidId
@@ -21,14 +21,6 @@ class Collection(royal.Collection):
         Optional('radius'): InRange(min=1),
         })
 
-    create_schema = Schema({
-        Required('author'): Coerce(unicode),
-        Required('description'): Coerce(unicode),
-        Required('longitude'): Coerce(float),
-        Required('latitude'): Coerce(float),
-        Required('tags'): list,
-        })
-
     def __getitem__(self, key):
         return Resource(key, self)
 
@@ -45,11 +37,6 @@ class Collection(royal.Collection):
             query = dict(offset=offset, limit=limit)
         return royal.PaginatedResult(self, cursor, Resource, query,
                                      cursor.count())
-
-    def create(self, author, description, longitude, latitude, tags):
-        report = model.Report.create(self.db, author, description, longitude,
-                                     latitude, tags)
-        return Resource(str(report._id), self, model=report)
 
 
 class Resource(royal.Resource):
@@ -88,7 +75,4 @@ class Resource(royal.Resource):
 
     def delete(self):
         self.load_model()
-        #try:
         self.model.delete()
-        #except errors.PyMongoError:
-        #    log.exception('delete on %s', self.model)

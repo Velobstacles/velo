@@ -1,5 +1,3 @@
-import re
-
 import pkg_resources
 
 from ..functional import TestController
@@ -179,47 +177,3 @@ class Test(TestController):
 
         self.assertUrlEqual(expected['links']['last'],
                             result.json['links']['last'])
-
-    def test_create(self):
-        from ...model import Report
-        params = {
-            u'author': 'bob',
-            u'longitude': -73.583885,
-            u'latitude': 45.522706,
-            u'description': 'wow a description',
-            u'tags': ['broken', 'blocked']
-            }
-        result = self.app.post('/reports/', params=params)
-
-        location_re = re.compile(r'http://localhost/reports/([a-f0-9]{24})/')
-        location = result.headers.getone('Location')
-        self.assertRegexpMatches(location, location_re)
-
-        report_id = location_re.findall(location).pop()
-
-        report = Report.get_by_id(self.db, report_id)
-        self.assertIsNotNone(report)
-
-        self.assertEqual('bob', report.author)
-        self.assertEqual([-73.583885, 45.522706], report.location.coordinates)
-        self.assertEqual(u'wow a description', report.description)
-        self.assertEqual([u'broken', u'blocked'], report.tags)
-
-        expected = {
-            u'links': {
-                u'self': unicode(location),
-                u'photos': u'%sphotos/' % location,
-                },
-            u'report': {
-                u'_id': unicode(report_id),
-                u'author': u'bob',
-                u'description': u'wow a description',
-                u'created': unicode(report._id.generation_time.isoformat()),
-                u'tags': [u'broken', u'blocked'],
-                u'location': {
-                    u'type': u'Point',
-                    u'coordinates': [-73.583885, 45.522706]
-                    }
-                }
-            }
-        self.assertEqual(expected, result.json)
