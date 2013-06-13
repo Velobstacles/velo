@@ -42,12 +42,12 @@ class TestController(unittest.TestCase):
         for attr in ['scheme', 'netloc', 'path', 'params', 'fragment']:
             attr1 = getattr(u1, attr)
             attr2 = getattr(u2, attr)
-            if attr1 != attr2:
+            if attr1 != attr2:  # pragma nocover
                 msg = 'AssertionError: %s != %s. %s != %s'
                 self.fail(msg % (attr1, attr2, url1, url2))
 
         q1 = urlparse.parse_qs(u1.query)
         q2 = urlparse.parse_qs(u2.query)
-        if q1 != q2:
+        if q1 != q2:  # pragma nocover
             msg = 'AssertionError: %s != %s. %s != %s'
             self.fail(msg % (q1, q2, url1, url2))
